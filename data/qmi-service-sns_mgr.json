@@ -1,0 +1,31 @@
+
+[
+  // *********************************************************************************
+  {  "name"    : "SNS MGR",
+     "type"    : "Service" },
+
+  // *********************************************************************************
+  {  "name"    : "QMI Client SNS MGR",
+     "type"    : "Client",
+     "since"   : "99.99" },
+
+  // *********************************************************************************
+  {  "name"    : "QMI Message SNS MGR",
+     "type"    : "Message-ID-Enum" },
+
+  // *********************************************************************************
+  {  "name"    : "Indication Register",
+     "type"    : "Message",
+     "service" : "PBM",
+     "id"      : "0x0001",
+     "version" : "1.0",
+     "since"   : "99.99",
+     "output"  : [ { "common-ref" : "Operation Result" },
+                   { "name"          : "Event Registration Mask",
+                     "id"            : "0x02",
+                     "type"          : "TLV",
+                     "since"         : "1.6",
+                     "format"        : "guint32",
+                     "public-format" : "QmiPbmEventRegistrationFlag",
+                     "prerequisites" : [ { "common-ref" : "Success" } ] } ] }
+]
