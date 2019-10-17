@@ -14,18 +14,32 @@
      "type"    : "Message-ID-Enum" },
 
   // *********************************************************************************
-  {  "name"    : "Indication Register",
+  {  "name"    : "Cancel",
      "type"    : "Message",
-     "service" : "PBM",
+     "service" : "SNSMGR",
+     "id"      : "0x0000",
+     "version" : "1.0",
+     "since"   : "99.99",
+     "output"  : [ { "common-ref" : "Operation Result" } ] },
+
+  // *********************************************************************************
+  {  "name"    : "Version",
+     "type"    : "Message",
+     "service" : "SNSMGR",
      "id"      : "0x0001",
      "version" : "1.0",
      "since"   : "99.99",
      "output"  : [ { "common-ref" : "Operation Result" },
-                   { "name"          : "Event Registration Mask",
+                   { "name"          : "Interface Version Number",
+                     "id"            : "0x01",
+                     "type"          : "TLV",
+                     "since"         : "99.99",
+                     "format"        : "guint32",
+                     "prerequisites" : [ { "common-ref" : "Success" } ] },
+                   { "name"          : "Maximum Message ID",
                      "id"            : "0x02",
                      "type"          : "TLV",
-                     "since"         : "1.6",
-                     "format"        : "guint32",
-                     "public-format" : "QmiPbmEventRegistrationFlag",
+                     "since"         : "99.99",
+                     "format"        : "guint16",
                      "prerequisites" : [ { "common-ref" : "Success" } ] } ] }
 ]

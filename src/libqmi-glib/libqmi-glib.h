@@ -88,6 +88,9 @@
 #include "qmi-flags64-dsd.h"
 #include "qmi-dsd.h"
 
+#include "qmi-enums-snsmgr.h"
+#include "qmi-snsmgr.h"
+
 /* generated */
 #include "qmi-error-types.h"
 #include "qmi-enum-types.h"

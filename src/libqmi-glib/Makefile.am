@@ -35,6 +35,7 @@ libqmi_glib_la_SOURCES = \
 	qmi-enums-qos.h \
 	qmi-enums-gas.h \
 	qmi-enums-dsd.h qmi-flags64-dsd.h\
+	qmi-enums-snsmgr.h \
 	qmi-enums.h qmi-enums-private.h \
 	qmi-utils.h qmi-utils.c \
 	qmi-compat.h qmi-compat.c \
@@ -83,6 +84,7 @@ include_HEADERS = \
 	qmi-enums-qos.h \
 	qmi-enums-gas.h \
 	qmi-enums-dsd.h qmi-flags64-dsd.h \
+	qmi-enums-snsmgr.h \
 	qmi-utils.h \
 	qmi-message.h \
 	qmi-message-context.h \

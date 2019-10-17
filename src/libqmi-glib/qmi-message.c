@@ -1641,6 +1641,9 @@ qmi_message_get_printable_full (QmiMessage        *self,
     case QMI_SERVICE_DSD:
         contents = __qmi_message_dsd_get_printable (self, context, line_prefix);
         break;
+    case QMI_SERVICE_SNSMGR:
+        contents = __qmi_message_snsmgr_get_printable (self, context, line_prefix);
+        break;
     default:
         break;
     }

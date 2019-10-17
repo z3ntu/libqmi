@@ -52,6 +52,7 @@
 #include "qmi-qos.h"
 #include "qmi-gas.h"
 #include "qmi-dsd.h"
+#include "qmi-snsmgr.h"
 #include "qmi-utils.h"
 #include "qmi-error-types.h"
 #include "qmi-enum-types.h"
@@ -1224,6 +1225,10 @@ qmi_device_allocate_client (QmiDevice *self,
 
     case QMI_SERVICE_DSD:
         ctx->client_type = QMI_TYPE_CLIENT_DSD;
+        break;
+
+    case QMI_SERVICE_SNSMGR:
+        ctx->client_type = QMI_TYPE_CLIENT_SNSMGR;
         break;
 
     default:
