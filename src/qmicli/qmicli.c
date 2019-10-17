@@ -394,6 +394,9 @@ allocate_client_ready (QmiDevice *dev,
     case QMI_SERVICE_DSD:
         qmicli_dsd_run (dev, QMI_CLIENT_DSD (client), cancellable);
         return;
+    case QMI_SERVICE_SNSMGR:
+        qmicli_snsmgr_run (dev, QMI_CLIENT_SNSMGR (client), cancellable);
+        return;
     default:
         g_assert_not_reached ();
     }
@@ -781,6 +784,12 @@ parse_actions (void)
         actions_enabled++;
     }
 
+    /* SNSMGR options? */
+    if (qmicli_snsmgr_options_enabled ()) {
+        service = QMI_SERVICE_SNSMGR;
+        actions_enabled++;
+    }
+
     /* Cannot mix actions from different services */
     if (actions_enabled > 1) {
         g_printerr ("error: cannot execute multiple actions of different services\n");
@@ -832,6 +841,8 @@ int main (int argc, char **argv)
                                 qmicli_gas_get_option_group ());
     g_option_context_add_group (context,
                                 qmicli_dsd_get_option_group ());
+    g_option_context_add_group (context,
+                                qmicli_snsmgr_get_option_group ());
     g_option_context_add_main_entries (context, main_entries, NULL);
     if (!g_option_context_parse (context, &argc, &argv, &error)) {
         g_printerr ("error: %s\n",
