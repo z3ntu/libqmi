@@ -1,0 +1,63 @@
+
+[
+  // *********************************************************************************
+  {  "name"    : "SNSMGR",
+     "type"    : "Service" },
+
+  // *********************************************************************************
+  {  "name"    : "QMI Client SNSMGR",
+     "type"    : "Client",
+     "since"   : "99.99" },
+
+  // *********************************************************************************
+  {  "name"    : "QMI Message SNSMGR",
+     "type"    : "Message-ID-Enum" },
+
+  // *********************************************************************************
+  {  "name"    : "Cancel",
+     "type"    : "Message",
+     "service" : "SNSMGR",
+     "id"      : "0x0000",
+     "version" : "1.0",
+     "since"   : "99.99",
+     "output"  : [ { "common-ref" : "Operation Result" } ] },
+
+  // *********************************************************************************
+  {  "name"    : "Version",
+     "type"    : "Message",
+     "service" : "SNSMGR",
+     "id"      : "0x0001",
+     "version" : "1.0",
+     "since"   : "99.99",
+     "output"  : [ { "common-ref" : "Operation Result" },
+                   { "name"          : "Interface Version Number",
+                     "id"            : "0x10",
+                     "type"          : "TLV",
+                     "since"         : "99.99",
+                     "format"        : "guint32",
+                     "prerequisites" : [ { "common-ref" : "Success" } ] },
+                   { "name"          : "Maximum Message ID",
+                     "id"            : "0x11",
+                     "type"          : "TLV",
+                     "since"         : "99.99",
+                     "format"        : "guint16",
+                     "prerequisites" : [ { "common-ref" : "Success" } ] } ] },
+
+  // *********************************************************************************
+  {  "name"    : "All Sensor Info",
+     "type"    : "Message",
+     "service" : "SNSMGR",
+     "id"      : "0x0005",
+     "version" : "1.0",
+     "since"   : "99.99",
+     "output"  : [ { "common-ref" : "Operation Result" },
+                   { "name"          : "Sensor Info",
+                     "id"            : "0x10",
+                     "type"          : "TLV",
+                     "since"         : "99.99",
+                     "format"        : "struct",
+                     "contents"      : [ { "name"   : "Sensor ID",
+                                           "format" : "guint8" },
+                                         { "name"   : "Sensor Short Name",
+                                           "format" : "string" } ] } ] }
+]

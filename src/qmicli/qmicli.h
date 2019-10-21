@@ -119,4 +119,11 @@ void          qmicli_dsd_run              (QmiDevice *device,
                                            QmiClientDsd *client,
                                            GCancellable *cancellable);
 
+/* SNSMGR group */
+GOptionGroup *qmicli_snsmgr_get_option_group (void);
+gboolean      qmicli_snsmgr_options_enabled  (void);
+void          qmicli_snsmgr_run              (QmiDevice *device,
+                                              QmiClientSnsmgr *client,
+                                              GCancellable *cancellable);
+
 #endif /* __QMICLI_H__ */

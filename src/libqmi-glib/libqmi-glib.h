@@ -37,6 +37,12 @@
 #include "qmi-enums.h"
 #include "qmi-utils.h"
 
+#if QMI_QRTR_SUPPORTED
+#include "qmi-qrtr-control-socket.h"
+#include "qmi-qrtr-node.h"
+#include "qmi-qrtr-utils.h"
+#endif
+
 #include "qmi-compat.h"
 
 #include "qmi-enums-dms.h"
@@ -87,6 +93,9 @@
 #include "qmi-enums-dsd.h"
 #include "qmi-flags64-dsd.h"
 #include "qmi-dsd.h"
+
+#include "qmi-enums-snsmgr.h"
+#include "qmi-snsmgr.h"
 
 /* generated */
 #include "qmi-error-types.h"

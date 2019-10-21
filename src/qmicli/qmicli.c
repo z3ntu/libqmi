@@ -394,6 +394,9 @@ allocate_client_ready (QmiDevice *dev,
     case QMI_SERVICE_DSD:
         qmicli_dsd_run (dev, QMI_CLIENT_DSD (client), cancellable);
         return;
+    case QMI_SERVICE_SNSMGR:
+        qmicli_snsmgr_run (dev, QMI_CLIENT_SNSMGR (client), cancellable);
+        return;
     default:
         g_assert_not_reached ();
     }
@@ -690,6 +693,69 @@ device_new_ready (GObject *unused,
                      NULL);
 }
 
+#if QMI_QRTR_SUPPORTED
+static void
+qrtr_node_ready (GObject *unused,
+                 GAsyncResult *res)
+{
+    QrtrNode *node;
+    GError *error = NULL;
+
+    node = qrtr_node_for_id_finish (res, &error);
+    if (!node) {
+        g_printerr ("error: couldn't open QRTR node: %s\n", error->message);
+        exit (EXIT_FAILURE);
+    }
+
+    qmi_device_new_from_node (node,
+                              cancellable,
+                              (GAsyncReadyCallback)device_new_ready,
+                              NULL);
+
+    /* QmiDevice takes a reference, so we don't need this anymore. */
+    g_object_unref (node);
+}
+#endif
+
+static gboolean
+make_device (GFile *file)
+{
+    gchar *id;
+#if QMI_QRTR_SUPPORTED
+    guint32 node_id;
+#endif
+
+    id = g_file_get_path (file);
+    if (id) {
+        /* Describes a local device file. */
+        qmi_device_new (file,
+                        cancellable,
+                        (GAsyncReadyCallback)device_new_ready,
+                        NULL);
+        g_free (id);
+        return TRUE;
+    }
+
+#if QMI_QRTR_SUPPORTED
+    id = g_file_get_uri (file);
+    if (!qrtr_get_node_for_uri (id, &node_id)) {
+        g_printerr ("error: URI wasn't a QRTR node: %s\n", id);
+        g_free (id);
+        return FALSE;
+    }
+
+    qrtr_node_for_id (node_id,
+                      10,
+                      cancellable,
+                      (GAsyncReadyCallback)qrtr_node_ready,
+                      NULL);
+    g_free (id);
+    return TRUE;
+#else
+    return FALSE;
+#endif
+}
+
 /*****************************************************************************/
 
 static void
@@ -781,6 +847,12 @@ parse_actions (void)
         actions_enabled++;
     }
 
+    /* SNSMGR options? */
+    if (qmicli_snsmgr_options_enabled ()) {
+        service = QMI_SERVICE_SNSMGR;
+        actions_enabled++;
+    }
+
     /* Cannot mix actions from different services */
     if (actions_enabled > 1) {
         g_printerr ("error: cannot execute multiple actions of different services\n");
@@ -832,6 +904,8 @@ int main (int argc, char **argv)
                                 qmicli_gas_get_option_group ());
     g_option_context_add_group (context,
                                 qmicli_dsd_get_option_group ());
+    g_option_context_add_group (context,
+                                qmicli_snsmgr_get_option_group ());
     g_option_context_add_main_entries (context, main_entries, NULL);
     if (!g_option_context_parse (context, &argc, &argv, &error)) {
         g_printerr ("error: %s\n",
@@ -876,10 +950,9 @@ int main (int argc, char **argv)
     g_unix_signal_add (SIGTERM, (GSourceFunc) signals_handler, NULL);
 
     /* Launch QmiDevice creation */
-    qmi_device_new (file,
-                    cancellable,
-                    (GAsyncReadyCallback)device_new_ready,
-                    NULL);
+    if (!make_device (file))
+        return EXIT_FAILURE;
+
     g_main_loop_run (loop);
 
     if (cancellable)

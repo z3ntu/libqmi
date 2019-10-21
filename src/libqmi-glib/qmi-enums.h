@@ -86,6 +86,11 @@
  * @QMI_SERVICE_FOTA: Firmware Over The Air service. Since: 1.24.
  * @QMI_SERVICE_GMS: Telit General Modem Service. Since: 1.24.
  * @QMI_SERVICE_GAS: Telit General Application Service. Since: 1.24.
+ * @QMI_SERVICE_SNSMGR: Sensors Manager Service. Since: 99.99.
+ * @QMI_SERVICE_SNSPM: Sensors Power Management Service. Since: 99.99.
+ * @QMI_SERVICE_SNSDEBUG: Sensors Debug Service. Since: 99.99.
+ * @QMI_SERVICE_SNSDIAG: Sensors Diag Service. Since: 99.99.
+ * @QMI_SERVICE_SNSINTERNAL: Sensors Manager Internal Service. Since: 99.99.
  *
  * QMI services.
  *
@@ -143,6 +148,11 @@ typedef enum {
     QMI_SERVICE_FOTA    = 0xE6,
     QMI_SERVICE_GMS     = 0xE7,
     QMI_SERVICE_GAS     = 0xE8,
+    QMI_SERVICE_SNSMGR      = 0x100,
+    QMI_SERVICE_SNSPM       = 0x101,
+    QMI_SERVICE_SNSDEBUG    = 0x107,
+    QMI_SERVICE_SNSDIAG     = 0x108,
+    QMI_SERVICE_SNSINTERNAL = 0x10D,
 } QmiService;
 
 /**

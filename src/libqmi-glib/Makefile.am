@@ -35,6 +35,7 @@ libqmi_glib_la_SOURCES = \
 	qmi-enums-qos.h \
 	qmi-enums-gas.h \
 	qmi-enums-dsd.h qmi-flags64-dsd.h\
+	qmi-enums-snsmgr.h \
 	qmi-enums.h qmi-enums-private.h \
 	qmi-utils.h qmi-utils.c \
 	qmi-compat.h qmi-compat.c \
@@ -50,6 +51,14 @@ libqmi_glib_la_SOURCES = \
 if QMI_MBIM_QMUX_SUPPORTED
 libqmi_glib_la_SOURCES += \
 	qmi-endpoint-mbim.h qmi-endpoint-mbim.c
+endif
+
+if QMI_QRTR_SUPPORTED
+libqmi_glib_la_SOURCES += \
+	qmi-qrtr-control-socket.h qmi-qrtr-control-socket.c \
+	qmi-qrtr-node.h qmi-qrtr-node.c \
+	qmi-qrtr-utils.h qmi-qrtr-utils.c \
+	qmi-endpoint-qrtr.h qmi-endpoint-qrtr.c
 endif
 
 libqmi_glib_la_LIBADD = \
@@ -83,12 +92,20 @@ include_HEADERS = \
 	qmi-enums-qos.h \
 	qmi-enums-gas.h \
 	qmi-enums-dsd.h qmi-flags64-dsd.h \
+	qmi-enums-snsmgr.h \
 	qmi-utils.h \
 	qmi-message.h \
 	qmi-message-context.h \
 	qmi-device.h \
 	qmi-client.h \
 	qmi-proxy.h
+
+if QMI_QRTR_SUPPORTED
+include_HEADERS += \
+	qmi-qrtr-control-socket.h \
+	qmi-qrtr-node.h \
+	qmi-qrtr-utils.h
+endif
 
 EXTRA_DIST = \
 	qmi-version.h.in

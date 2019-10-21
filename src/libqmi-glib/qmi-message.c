@@ -56,6 +56,7 @@
 #include "qmi-qos.h"
 #include "qmi-gas.h"
 #include "qmi-dsd.h"
+#include "qmi-snsmgr.h"
 
 #define PACKED __attribute__((packed))
 
@@ -1640,6 +1641,9 @@ qmi_message_get_printable_full (QmiMessage        *self,
         break;
     case QMI_SERVICE_DSD:
         contents = __qmi_message_dsd_get_printable (self, context, line_prefix);
+        break;
+    case QMI_SERVICE_SNSMGR:
+        contents = __qmi_message_snsmgr_get_printable (self, context, line_prefix);
         break;
     default:
         break;
