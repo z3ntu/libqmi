@@ -171,10 +171,16 @@ __qmi_utils_get_transport_type (const gchar  *path,
 
     driver = utils_get_driver (device_basename, &inner_error);
 
-    /* On Android systems we get access to the QMI control port through
-     * virtual smdcntl devices in the smdpkt subsystem. */
     if (!driver) {
+        /* On Android systems we get access to the QMI control port through
+         * virtual smdcntl devices in the smdpkt subsystem. */
         path = g_strdup_printf ("/sys/devices/virtual/smdpkt/%s", device_basename);
+        if (g_file_test (path, G_FILE_TEST_EXISTS)) {
+            g_clear_error (&inner_error);
+            transport = __QMI_TRANSPORT_TYPE_QMUX;
+        }
+        /* On mainline kernels this control port is provided by rpmsg */
+        path = g_strdup_printf ("/sys/class/rpmsg/%s", device_basename);
         if (g_file_test (path, G_FILE_TEST_EXISTS)) {
             g_clear_error (&inner_error);
             transport = __QMI_TRANSPORT_TYPE_QMUX;
